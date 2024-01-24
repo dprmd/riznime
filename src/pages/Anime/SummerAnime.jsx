@@ -20,5 +20,12 @@ export default function SummerAnime() {
     fetchSummerAnime(0)
   }, [])
 
-  return <AnimeList animeData={summerAnime} loadingAnime={loadingSummerAnime} />
+  return (
+    <>
+      <h1 className="text-center font-bold text-2xl text-grayWhite font-montserrat mt-2 md:hidden">
+        Summer Anime
+      </h1>
+      <AnimeList animeData={summerAnime} loadingAnime={loadingSummerAnime} />
+    </>
+  )
 }

@@ -20,5 +20,12 @@ export default function TopAnime() {
     fetchTopAnime()
   }, [])
 
-  return <AnimeList animeData={topAnime} loadingAnime={loadingTopAnime} />
+  return (
+    <>
+      <h1 className="text-center font-bold text-2xl text-grayWhite font-montserrat mt-2 md:hidden">
+        Top Anime
+      </h1>
+      <AnimeList animeData={topAnime} loadingAnime={loadingTopAnime} />
+    </>
+  )
 }

@@ -20,5 +20,12 @@ export default function WinterAnime() {
     fetchWinterAnime()
   }, [])
 
-  return <AnimeList animeData={winterAnime} loadingAnime={loadingWinterAnime} />
+  return (
+    <>
+      <h1 className="text-center font-bold text-2xl text-grayWhite font-montserrat mt-2 md:hidden">
+        Winter Anime
+      </h1>
+      <AnimeList animeData={winterAnime} loadingAnime={loadingWinterAnime} />
+    </>
+  )
 }

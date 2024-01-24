@@ -20,5 +20,12 @@ export default function SpringAnime() {
     fetchSpringAnime()
   }, [])
 
-  return <AnimeList animeData={springAnime} loadingAnime={loadingSpringAnime} />
+  return (
+    <>
+      <h1 className="text-center font-bold text-2xl text-grayWhite font-montserrat mt-2 md:hidden">
+        Spring Anime
+      </h1>
+      <AnimeList animeData={springAnime} loadingAnime={loadingSpringAnime} />
+    </>
+  )
 }

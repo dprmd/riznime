@@ -2,7 +2,7 @@ import { NavLink } from "react-router-dom"
 
 export default function HomeNavlink() {
   // Navlink Style
-  const navlink = "p-2 mx-2 font-bold font-inter text-grayWhite"
+  const navlink = "p-2 mx-2 my-1 font-bold font-inter text-grayWhite"
   const navlinkActive = "text-red-500 border-b-2 border-b-red-600"
 
   return (

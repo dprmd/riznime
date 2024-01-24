@@ -3,6 +3,8 @@
 
 import { Link, useMatch } from "react-router-dom"
 
+import HomeNavlink from "../../pages/Home/HomeNavlink"
+
 export default function HeaderNavlink({ hambActive, setHambActive }) {
   // Match Url
   const home = useMatch("/home")
@@ -15,8 +17,8 @@ export default function HeaderNavlink({ hambActive, setHambActive }) {
 
   // Link Style
   const navlink =
-    "text-center mx-4 my-2 px-4 py-2 font-bold font-montserrat md:mx-2 md:px-2 md:py-1"
-  const navlinkActive = "text-primary border-b-2 border-yellow-600"
+    "text-center mx-4 my-1 py-2 font-bold font-montserrat md:mx-2 md:px-2 md:py-1"
+  const navlinkActive = "text-primary border-b border-yellow-600"
 
   return (
     <div
@@ -26,6 +28,7 @@ export default function HeaderNavlink({ hambActive, setHambActive }) {
       }`}
     >
       <Link
+        onClick={() => (document.title = `RizNime - Top Anime`)}
         to="/home/top-anime"
         className={
           Boolean(home || top || spring || summer || fall || winter)
@@ -44,6 +47,11 @@ export default function HeaderNavlink({ hambActive, setHambActive }) {
       >
         About
       </Link>
+
+      <div className="md:hidden px-4">
+        <span className="block w-full h-[1px] bg-grayWhite my-4"></span>
+        <HomeNavlink />
+      </div>
     </div>
   )
 }

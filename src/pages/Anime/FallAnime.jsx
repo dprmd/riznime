@@ -20,5 +20,12 @@ export default function FallAnime() {
     fetchFallAnime()
   }, [])
 
-  return <AnimeList animeData={fallAnime} loadingAnime={loadingFallAnime} />
+  return (
+    <>
+      <h1 className="text-center font-bold text-2xl text-grayWhite font-montserrat mt-2 md:hidden">
+        Fall Anime
+      </h1>
+      <AnimeList animeData={fallAnime} loadingAnime={loadingFallAnime} />
+    </>
+  )
 }
