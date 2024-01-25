@@ -23,8 +23,7 @@ export default function Detail() {
     fetchDetailAnime()
   }, [mal_id])
 
-  console.log(detailAnime)
-  document.title = `RizNime - ${detailAnime.title}`
+  document.title = `RizNime - ${detailAnime?.title}`
 
   return (
     <div className="m-4 p-4">
@@ -89,24 +88,39 @@ export default function Detail() {
                 }
               />
               <DetailSection
+                detailName={"Rank"}
+                detailDescription={
+                  detailAnime.rank ? detailAnime.rank : "Unknown"
+                }
+              />
+              <DetailSection
+                detailName={"Score"}
+                detailDescription={
+                  detailAnime.score ? detailAnime.score : "Unknown"
+                }
+              />
+              <DetailSection
                 detailName={"Total Episode"}
                 detailDescription={
                   detailAnime.episodes ? detailAnime.episodes : "Unknown"
                 }
               />
-              <DetailSection
-                detailName={"Background"}
-                detailDescription={
-                  detailAnime.background ? detailAnime.background : "Unknown"
-                }
-              />
-              <DetailSection
-                detailName={"Synopsis"}
-                detailDescription={
-                  detailAnime.synopsis ? detailAnime.synopsis : "Unknown"
-                }
-              />
             </div>
+          </div>
+
+          <div className="text-grayWhite font-poppins text-center md:text-left">
+            <DetailSection
+              detailName={"Background"}
+              detailDescription={
+                detailAnime.background ? detailAnime.background : "Unknown"
+              }
+            />
+            <DetailSection
+              detailName={"Synopsis"}
+              detailDescription={
+                detailAnime.synopsis ? detailAnime.synopsis : "Unknown"
+              }
+            />
           </div>
           <Back variant={"mx-auto block mt-10"} />
         </>

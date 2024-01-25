@@ -1,6 +1,5 @@
 /* eslint-disable react/prop-types */
 /* eslint-disable no-extra-boolean-cast */
-
 import { Link, useMatch } from "react-router-dom"
 
 import HomeNavlink from "../../pages/Home/HomeNavlink"
@@ -17,15 +16,15 @@ export default function HeaderNavlink({ hambActive, setHambActive }) {
 
   // Link Style
   const navlink =
-    "text-center mx-4 my-1 py-2 font-bold font-montserrat md:mx-2 md:px-2 md:py-1"
+    "text-center mx-4 my-1 px-4 py-2 font-bold font-montserrat md:mx-2 md:px-2 md:py-1 w-max mx-auto"
   const navlinkActive = "text-primary border-b border-yellow-600"
+  const navstyle =
+    "origin-top-right duration-300 inline-flex flex-col bg-black absolute top-full right-0 w-1/2 md:static md:flex-row md:w-fit md:scale-100 md:order-1"
 
   return (
     <div
       onClick={() => setHambActive(false)}
-      className={`origin-top-right duration-300 inline-flex flex-col bg-black absolute top-full right-0 w-1/2 md:static md:flex-row md:w-fit md:scale-100 md:order-1 ${
-        hambActive ? "scale-100" : "scale-0"
-      }`}
+      className={`${navstyle} ${hambActive ? "scale-100" : "scale-0"}`}
     >
       <Link
         onClick={() => (document.title = `RizNime - Top Anime`)}
