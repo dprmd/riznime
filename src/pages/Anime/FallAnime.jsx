@@ -1,23 +1,23 @@
-import { useState, useEffect } from "react"
+import { useEffect } from "react"
 
 // Services
 import { fetchJikanApi } from "../../services/JikanApi"
+
+// Context
+import { useFallAnimeContext } from "../../context/FallAnimeContext"
 
 // Components
 import AnimeList from "../../components/AnimeList"
 
 export default function FallAnime() {
-  const [fallAnime, setFallAnime] = useState([])
-  const [loadingFallAnime, setLoadingFallAnime] = useState(true)
+  const [state, dispatch] = useFallAnimeContext()
 
   useEffect(() => {
     async function fetchFallAnime() {
       const response = await fetchJikanApi("/seasons/2024/fall")
-      setFallAnime(response.data)
-      setLoadingFallAnime(false)
+      dispatch({ type: "fetchFirst", payload: response.data })
     }
-
-    fetchFallAnime()
+    state?.page_1?.length === 0 ? null : fetchFallAnime()
   }, [])
 
   return (
@@ -25,7 +25,7 @@ export default function FallAnime() {
       <h1 className="text-center font-bold text-2xl text-grayWhite font-montserrat mt-2 md:hidden">
         Fall Anime
       </h1>
-      <AnimeList animeData={fallAnime} loadingAnime={loadingFallAnime} />
+      <AnimeList animeData={state.page_1} />
     </>
   )
 }

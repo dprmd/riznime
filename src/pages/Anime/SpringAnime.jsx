@@ -1,23 +1,23 @@
-import { useState, useEffect } from "react"
+import { useEffect } from "react"
 
 // Services
 import { fetchJikanApi } from "../../services/JikanApi"
+
+// Context
+import { useSpringAnimeContext } from "../../context/SpringAnimeContext"
 
 // Components
 import AnimeList from "../../components/AnimeList"
 
 export default function SpringAnime() {
-  const [springAnime, setSpringAnime] = useState([])
-  const [loadingSpringAnime, setLoadingSpringAnime] = useState(true)
+  const [state, dispatch] = useSpringAnimeContext()
 
   useEffect(() => {
     async function fetchSpringAnime() {
       const response = await fetchJikanApi("/seasons/2024/spring")
-      setSpringAnime(response.data)
-      setLoadingSpringAnime(false)
+      dispatch({ type: "fetchFirst", payload: response.data })
     }
-
-    fetchSpringAnime()
+    state?.page_1?.length === 0 ? null : fetchSpringAnime()
   }, [])
 
   return (
@@ -25,7 +25,7 @@ export default function SpringAnime() {
       <h1 className="text-center font-bold text-2xl text-grayWhite font-montserrat mt-2 md:hidden">
         Spring Anime
       </h1>
-      <AnimeList animeData={springAnime} loadingAnime={loadingSpringAnime} />
+      <AnimeList animeData={state.page_1} />
     </>
   )
 }

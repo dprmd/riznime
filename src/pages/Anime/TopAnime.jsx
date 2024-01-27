@@ -1,23 +1,23 @@
-import { useState, useEffect } from "react"
+import { useEffect } from "react"
 
 // Services
 import { fetchJikanApi } from "../../services/JikanApi"
+
+// Context
+import { useTopAnimeContext } from "../../context/TopAnimeContext"
 
 // Components
 import AnimeList from "../../components/AnimeList"
 
 export default function TopAnime() {
-  const [topAnime, setTopAnime] = useState([])
-  const [loadingTopAnime, setLoadingTopAnime] = useState(true)
+  const [state, dispatch] = useTopAnimeContext()
 
   useEffect(() => {
     async function fetchTopAnime() {
       const response = await fetchJikanApi("/top/anime")
-      setTopAnime(response.data)
-      setLoadingTopAnime(false)
+      dispatch({ type: "fetchFirst", payload: response.data })
     }
-
-    fetchTopAnime()
+    state?.page_1?.length === 0 ? null : fetchTopAnime()
   }, [])
 
   return (
@@ -25,7 +25,7 @@ export default function TopAnime() {
       <h1 className="text-center font-bold text-2xl text-grayWhite font-montserrat mt-2 md:hidden">
         Top Anime
       </h1>
-      <AnimeList animeData={topAnime} loadingAnime={loadingTopAnime} />
+      <AnimeList animeData={state.page_1} />
     </>
   )
 }

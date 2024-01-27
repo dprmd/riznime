@@ -1,23 +1,23 @@
-import { useState, useEffect } from "react"
+import { useEffect } from "react"
 
 // Services
 import { fetchJikanApi } from "../../services/JikanApi"
+
+// Context
+import { useWinterAnimeContext } from "../../context/WinterAnimeContext"
 
 // Components
 import AnimeList from "../../components/AnimeList"
 
 export default function WinterAnime() {
-  const [winterAnime, setWinterAnime] = useState([])
-  const [loadingWinterAnime, setLoadingWinterAnime] = useState(true)
+  const [state, dispatch] = useWinterAnimeContext()
 
   useEffect(() => {
     async function fetchWinterAnime() {
       const response = await fetchJikanApi("/seasons/2024/winter")
-      setWinterAnime(response.data)
-      setLoadingWinterAnime(false)
+      dispatch({ type: "fetchFirst", payload: response.data })
     }
-
-    fetchWinterAnime()
+    state?.page_1?.length === 0 ? null : fetchWinterAnime()
   }, [])
 
   return (
@@ -25,7 +25,7 @@ export default function WinterAnime() {
       <h1 className="text-center font-bold text-2xl text-grayWhite font-montserrat mt-2 md:hidden">
         Winter Anime
       </h1>
-      <AnimeList animeData={winterAnime} loadingAnime={loadingWinterAnime} />
+      <AnimeList animeData={state.page_1} />
     </>
   )
 }

@@ -1,23 +1,23 @@
-import { useState, useEffect } from "react"
+import { useEffect } from "react"
 
 // Services
 import { fetchJikanApi } from "../../services/JikanApi"
+
+// Context
+import { useSummerAnimeContext } from "../../context/SummerAnimeContext"
 
 // Components
 import AnimeList from "../../components/AnimeList"
 
 export default function SummerAnime() {
-  const [summerAnime, setSummerAnime] = useState([])
-  const [loadingSummerAnime, setLoadingSummerAnime] = useState(true)
+  const [state, dispatch] = useSummerAnimeContext()
 
   useEffect(() => {
     async function fetchSummerAnime() {
       const response = await fetchJikanApi("/seasons/2024/summer")
-      setSummerAnime(response.data)
-      setLoadingSummerAnime(false)
+      dispatch({ type: "fetchFirst", payload: response.data })
     }
-
-    fetchSummerAnime(0)
+    state?.page_1?.length === 0 ? null : fetchSummerAnime()
   }, [])
 
   return (
@@ -25,7 +25,7 @@ export default function SummerAnime() {
       <h1 className="text-center font-bold text-2xl text-grayWhite font-montserrat mt-2 md:hidden">
         Summer Anime
       </h1>
-      <AnimeList animeData={summerAnime} loadingAnime={loadingSummerAnime} />
+      <AnimeList animeData={state.page_1} />
     </>
   )
 }

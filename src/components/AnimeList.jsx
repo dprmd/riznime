@@ -4,11 +4,11 @@
 import AnimeCard from "./AnimeCard"
 
 export default function AnimeList(props) {
-  const { animeData, loadingAnime } = props
+  const { animeData } = props
 
   return (
     <div>
-      {loadingAnime ? (
+      {!animeData ? (
         <div className="text-center text-xl font-bold my-10 text-grayWhite">
           Loading . . .
         </div>
