@@ -2,9 +2,7 @@ export default function NetlifyLink() {
   return (
     <a
       href="https://riznime.netlify.app/"
-      rel="noreferrer"
-      target="_blank"
-      className="flex items-center px-4 py-3 max-w-[200px] rounded-md active:bg-grayWhite hover:bg-slate-600 duration-300 my-2"
+      className="flex items-center px-4 py-3 max-w-[200px] rounded-md active:bg-grayWhite md:hover:bg-slate-600 duration-300 my-2"
     >
       <span className="text-[#00C7B7] fill-current mr-2 w-6">
         <svg role="img" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">

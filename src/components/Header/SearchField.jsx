@@ -1,10 +1,14 @@
-import { useState, useRef } from "react"
+/* eslint-disable react/prop-types */
+import { useState } from "react"
 import { useNavigate } from "react-router-dom"
 
-export default function SearchField() {
+// Context
+import { useSearchAnimeContext } from "../../context/SearchAnimeContext"
+
+export default function SearchField({ searchInput, setHambActive }) {
   const navigate = useNavigate()
-  const searchInput = useRef(null)
   const [keyword, setKeyword] = useState("")
+  const [, dispatch] = useSearchAnimeContext()
 
   function handleSearchAnime(e) {
     e.preventDefault()
@@ -12,11 +16,13 @@ export default function SearchField() {
     if (keyword === "") return
     else {
       setKeyword("")
+      dispatch({ type: "clearCurrentData" })
       navigate(`/search/${keyword}`)
     }
   }
 
   function handleSearchClick() {
+    setHambActive(false)
     searchInput.current.classList.toggle("scale-0")
   }
 
