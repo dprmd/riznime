@@ -16,7 +16,7 @@ export default function SearchField({ searchInput, setHambActive }) {
     if (keyword === "") return
     else {
       setKeyword("")
-      dispatch({ type: "clearCurrentData" })
+      dispatch({ type: "resetSearchAnimeAndPage" })
       navigate(`/search/${keyword}`)
     }
   }

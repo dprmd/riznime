@@ -5,26 +5,34 @@ import { createContext, useContext, useReducer } from "react"
 const WinterAnimeContext = createContext({})
 
 function reducer(state, action) {
-  if (action.type === "fetchFirst") {
-    return { ...state, page_1: action.payload }
+  if (action.type === "fetchWinterAnime") {
+    return {
+      ...state,
+      winterAnime: action.winterAnime,
+      currentPage: action.currentPage,
+      maxPage: action.maxPage,
+    }
+  } else if (action.type === "changePage") {
+    return { ...state, currentPage: action.currentPage }
+  } else if (action.type === "resetWinterAnime") {
+    return { ...state, winterAnime: [] }
   } else {
     throw new Error(`Unknown Reducer Type : ${action.type}`)
   }
 }
 
+const initialValue = { winterAnime: [], currentPage: 1, maxPage: 999999 }
+
 // UseContextHook
-export function useWinterAnimeContext() {
-  const context = useContext(WinterAnimeContext)
-  return context
-}
+export const useWinterAnimeContext = () => useContext(WinterAnimeContext)
 
 // ContextProvider
 export function WinterAnimeContextProvider({ children }) {
-  const [state, dispatch] = useReducer(reducer, {})
-  const topAnimeContextValue = [state, dispatch]
+  const [state, dispatch] = useReducer(reducer, initialValue)
+  const winterAnimeContextValue = [state, dispatch]
 
   return (
-    <WinterAnimeContext.Provider value={topAnimeContextValue}>
+    <WinterAnimeContext.Provider value={winterAnimeContextValue}>
       {children}
     </WinterAnimeContext.Provider>
   )

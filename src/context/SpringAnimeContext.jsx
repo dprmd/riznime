@@ -5,22 +5,30 @@ import { createContext, useContext, useReducer } from "react"
 const SpringAnimeContext = createContext({})
 
 function reducer(state, action) {
-  if (action.type === "fetchFirst") {
-    return { ...state, page_1: action.payload }
+  if (action.type === "fetchSpringAnime") {
+    return {
+      ...state,
+      springAnime: action.springAnime,
+      currentPage: action.currentPage,
+      maxPage: action.maxPage,
+    }
+  } else if (action.type === "changePage") {
+    return { ...state, currentPage: action.currentPage }
+  } else if (action.type === "resetSpringAnime") {
+    return { ...state, springAnime: [] }
   } else {
     throw new Error(`Unknown Reducer Type : ${action.type}`)
   }
 }
 
+const initialValue = { springAnime: [], currentPage: 1, maxPage: 999999 }
+
 // UseContextHook
-export function useSpringAnimeContext() {
-  const context = useContext(SpringAnimeContext)
-  return context
-}
+export const useSpringAnimeContext = () => useContext(SpringAnimeContext)
 
 // ContextProvider
 export function SpringAnimeContextProvider({ children }) {
-  const [state, dispatch] = useReducer(reducer, {})
+  const [state, dispatch] = useReducer(reducer, initialValue)
   const springAnimeContextValue = [state, dispatch]
 
   return (

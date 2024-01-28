@@ -57,16 +57,20 @@ export default function Detail() {
               <DetailSection
                 detailName={"Genres"}
                 detailDescription={
-                  detailAnime.genres
-                    ? detailAnime.genres.map((genre) => (
+                  detailAnime.genres ? (
+                    <div className="flex flex-wrap justify-center md:justify-start">
+                      {detailAnime.genres.map((genre) => (
                         <span
                           key={genre.mal_id}
-                          className="bg-gray-200 mx-1 text-black px-3 rounded-full text-sm"
+                          className="bg-gray-200 m-1 text-black px-3 rounded-full text-sm"
                         >
                           {genre.name}
                         </span>
-                      ))
-                    : "Unknown"
+                      ))}
+                    </div>
+                  ) : (
+                    "Unknown"
+                  )
                 }
               />
               <DetailSection

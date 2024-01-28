@@ -9,7 +9,7 @@ import JikanLink from "./JikanLink"
 export default function About() {
   return (
     <>
-      <div className="px-6 py-4 text-grayWhite font-montserrat flex flex-col md:flex-row">
+      <div className="pl-6 py-4 text-grayWhite font-montserrat flex flex-col md:flex-row">
         <div className="min-w-[300px] max-w-[300px] order-2 md:order-1">
           <div>
             <h2 className="mb-2 mt-4 text-lg font-bold">Source</h2>

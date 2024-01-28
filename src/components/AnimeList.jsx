@@ -8,12 +8,12 @@ export default function AnimeList(props) {
 
   return (
     <div>
-      {!animeData ? (
+      {!animeData?.length ? (
         <div className="text-center text-xl font-bold my-10 text-grayWhite">
           Loading . . .
         </div>
       ) : (
-        <div className="flex flex-wrap justify-evenly mt-6">
+        <div className="flex flex-wrap justify-evenly mt-4">
           {animeData?.map((anime) => (
             <AnimeCard
               key={anime.mal_id}
