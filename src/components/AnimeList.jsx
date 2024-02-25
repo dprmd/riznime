@@ -1,17 +1,16 @@
 /* eslint-disable react/prop-types */
 
 // Components
-import AnimeCard from "./AnimeCard"
+import AnimeCard from "./AnimeCard";
+import AnimeListSkeleton from "./Skeleton/AnimeListSkeleton";
 
 export default function AnimeList(props) {
-  const { animeData } = props
+  const { animeData } = props;
 
   return (
     <div>
       {!animeData?.length ? (
-        <div className="text-center text-xl font-bold my-10 text-grayWhite">
-          Loading . . .
-        </div>
+        <AnimeListSkeleton length={10} />
       ) : (
         <div className="flex flex-wrap justify-evenly mt-4">
           {animeData?.map((anime) => (
@@ -25,5 +24,5 @@ export default function AnimeList(props) {
         </div>
       )}
     </div>
-  )
+  );
 }
