@@ -10,7 +10,7 @@ export default function AnimeList(props) {
   return (
     <div>
       {!animeData?.length ? (
-        <AnimeListSkeleton length={10} />
+        <AnimeListSkeleton length={25} />
       ) : (
         <div className="flex flex-wrap justify-evenly mt-4">
           {animeData?.map((anime) => (
