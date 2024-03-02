@@ -1,29 +1,29 @@
 /* eslint-disable react/prop-types */
-import { useState } from "react"
-import { useNavigate } from "react-router-dom"
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 // Context
-import { useSearchAnimeContext } from "../../context/SearchAnimeContext"
+import { useSearchAnimeContext } from "../../context/SearchAnimeContext";
 
 export default function SearchField({ searchInput, setHambActive }) {
-  const navigate = useNavigate()
-  const [keyword, setKeyword] = useState("")
-  const [, dispatch] = useSearchAnimeContext()
+  const navigate = useNavigate();
+  const [keyword, setKeyword] = useState("");
+  const [, dispatch] = useSearchAnimeContext();
 
   function handleSearchAnime(e) {
-    e.preventDefault()
-    searchInput.current.classList.add("scale-0")
-    if (keyword === "") return
+    e.preventDefault();
+    searchInput.current.classList.add("scale-0");
+    if (keyword === "") return;
     else {
-      setKeyword("")
-      dispatch({ type: "resetSearchAnimeAndPage" })
-      navigate(`/search/${keyword}`)
+      setKeyword("");
+      dispatch({ type: "resetSearchAnimeAndPage" });
+      navigate(`/search/${keyword}`);
     }
   }
 
   function handleSearchClick() {
-    setHambActive(false)
-    searchInput.current.classList.toggle("scale-0")
+    setHambActive(false);
+    searchInput.current.classList.toggle("scale-0");
   }
 
   return (
@@ -41,5 +41,5 @@ export default function SearchField({ searchInput, setHambActive }) {
         onClick={handleSearchClick}
       ></i>
     </form>
-  )
+  );
 }

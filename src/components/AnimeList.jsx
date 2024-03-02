@@ -4,9 +4,7 @@
 import AnimeCard from "./AnimeCard";
 import AnimeListSkeleton from "./Skeleton/AnimeListSkeleton";
 
-export default function AnimeList(props) {
-  const { animeData } = props;
-
+export default function AnimeList({ animeData }) {
   return (
     <div>
       {!animeData?.length ? (

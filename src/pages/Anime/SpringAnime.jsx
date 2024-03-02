@@ -1,54 +1,59 @@
-import { useEffect } from "react"
+/* eslint-disable react-hooks/exhaustive-deps */
+import { useEffect } from "react";
 
 // Services
-import { fetchJikanApi } from "../../services/JikanApi"
+import { fetchJikanApi } from "../../services/JikanApi";
 
 // Context
-import { useSpringAnimeContext } from "../../context/SpringAnimeContext"
+import { useSpringAnimeContext } from "../../context/SpringAnimeContext";
 
 // Components
-import AnimeList from "../../components/AnimeList"
-import Pagination from "../../components/Pagination"
+import AnimeList from "../../components/AnimeList";
+import Pagination from "../../components/Pagination";
 
 export default function SpringAnime() {
-  const [state, dispatch] = useSpringAnimeContext()
+  const [state, dispatch] = useSpringAnimeContext();
 
   async function fetchSpringAnime() {
     const response = await fetchJikanApi(
-      `/seasons/2024/spring?page=${state.currentPage}`
-    )
+      `/seasons/2024/spring?page=${state.currentPage}`,
+    );
     dispatch({
       type: "fetchSpringAnime",
       springAnime: response.data,
       currentPage: response.pagination.current_page,
       maxPage: response.pagination.last_visible_page,
-    })
+    });
   }
 
   useEffect(() => {
     if (state.currentPage !== 1 && state?.springAnime?.length === 0)
-      fetchSpringAnime()
-    else state?.springAnime?.length === 0 ? fetchSpringAnime() : null
-  }, [state.currentPage])
+      fetchSpringAnime();
+    else state?.springAnime?.length === 0 ? fetchSpringAnime() : null;
+  }, [state.currentPage]);
 
-  function handleClickPagination(type) {
+  function handleClickPagination(type, jumpTarget) {
+    if (type === "jump") {
+      dispatch({ type: "resetSpringAnime" });
+      dispatch({ type: "changePage", currentPage: jumpTarget });
+    }
     if (type === "prev") {
-      if (state.currentPage === 1) return
-      dispatch({ type: "resetSpringAnime" })
+      if (state.currentPage === 1) return;
+      dispatch({ type: "resetSpringAnime" });
       dispatch({
         type: "changePage",
         currentPage: state.currentPage === 1 ? 1 : state.currentPage - 1,
-      })
+      });
     } else if (type === "next") {
-      if (state.currentPage === state.maxPage) return alert("No More Page")
-      dispatch({ type: "resetSpringAnime" })
+      if (state.currentPage === state.maxPage) return alert("No More Page");
+      dispatch({ type: "resetSpringAnime" });
       dispatch({
         type: "changePage",
         currentPage:
           state.currentPage >= state.maxPage
             ? state.currentPage
             : state.currentPage + 1,
-      })
+      });
     }
   }
 
@@ -63,9 +68,12 @@ export default function SpringAnime() {
       ) : (
         <Pagination
           currentPage={state.currentPage}
-          onClick={(type) => handleClickPagination(type)}
+          maxPage={state.maxPage}
+          onClick={(type, jumpTarget) =>
+            handleClickPagination(type, jumpTarget)
+          }
         />
       )}
     </>
-  )
+  );
 }
