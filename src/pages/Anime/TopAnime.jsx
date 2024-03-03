@@ -5,48 +5,47 @@ import { useEffect } from "react";
 import { fetchJikanApi } from "../../services/JikanApi";
 
 // Context
-import { useTopAnimeContext } from "../../context/TopAnimeContext";
+import { useTopAnimeContext } from "../../context/AnimeContext";
 
 // Components
 import AnimeList from "../../components/AnimeList";
 import Pagination from "../../components/Pagination";
 
 export default function TopAnime() {
-  const [state, dispatch] = useTopAnimeContext();
+  const { state, dispatch } = useTopAnimeContext();
 
   async function fetchTopAnime() {
     const response = await fetchJikanApi(
       `/top/anime?page=${state.currentPage}`,
     );
     dispatch({
-      type: "fetchTopAnime",
-      topAnime: response.data,
+      type: "fetchAnime",
+      anime: response.data,
       currentPage: response.pagination.current_page,
       maxPage: response.pagination.last_visible_page,
     });
   }
 
   useEffect(() => {
-    if (state.currentPage !== 1 && state?.topAnime?.length === 0)
-      fetchTopAnime();
-    else state?.topAnime?.length === 0 ? fetchTopAnime() : null;
+    if (state.currentPage !== 1 && state?.anime?.length === 0) fetchTopAnime();
+    else state?.anime?.length === 0 ? fetchTopAnime() : null;
   }, [state.currentPage]);
 
   function handleClickPagination(type, jumpTarget) {
     if (type === "jump") {
-      dispatch({ type: "resetTopAnime" });
+      dispatch({ type: "resetAnime" });
       dispatch({ type: "changePage", currentPage: jumpTarget });
     }
     if (type === "prev") {
       if (state.currentPage === 1) return;
-      dispatch({ type: "resetTopAnime" });
+      dispatch({ type: "resetAnime" });
       dispatch({
         type: "changePage",
         currentPage: state.currentPage === 1 ? 1 : state.currentPage - 1,
       });
     } else if (type === "next") {
       if (state.currentPage === state.maxPage) return alert("No More Page");
-      dispatch({ type: "resetTopAnime" });
+      dispatch({ type: "resetAnime" });
       dispatch({
         type: "changePage",
         currentPage:
@@ -62,8 +61,8 @@ export default function TopAnime() {
       <h1 className="text-center font-bold text-2xl text-grayWhite font-montserrat mt-2 md:hidden">
         Top Anime
       </h1>
-      <AnimeList animeData={state.topAnime} />
-      {!state.topAnime.length ? (
+      <AnimeList animeData={state.anime} />
+      {!state.anime.length ? (
         ""
       ) : (
         <Pagination

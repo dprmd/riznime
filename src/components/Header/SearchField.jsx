@@ -3,12 +3,12 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 // Context
-import { useSearchAnimeContext } from "../../context/SearchAnimeContext";
+import { useSearchAnimeContext } from "../../context/AnimeContext";
 
 export default function SearchField({ searchInput, setHambActive }) {
   const navigate = useNavigate();
   const [keyword, setKeyword] = useState("");
-  const [, dispatch] = useSearchAnimeContext();
+  const { dispatch } = useSearchAnimeContext();
 
   function handleSearchAnime(e) {
     e.preventDefault();
@@ -16,7 +16,7 @@ export default function SearchField({ searchInput, setHambActive }) {
     if (keyword === "") return;
     else {
       setKeyword("");
-      dispatch({ type: "resetSearchAnimeAndPage" });
+      dispatch({ type: "resetAnimeAndPage" });
       navigate(`/search/${keyword}`);
     }
   }

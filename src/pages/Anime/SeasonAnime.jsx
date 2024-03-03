@@ -1,26 +1,53 @@
+/* eslint-disable react-hooks/rules-of-hooks */
+/* eslint-disable react/prop-types */
 /* eslint-disable react-hooks/exhaustive-deps */
-import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useEffect } from "react";
 
 // Services
 import { fetchJikanApi } from "../../services/JikanApi";
 
 // Context
-import { useSearchAnimeContext } from "../../context/AnimeContext";
+import {
+  useWinterAnimeContext,
+  useSpringAnimeContext,
+  useSummerAnimeContext,
+  useFallAnimeContext,
+} from "../../context/AnimeContext";
 
 // Components
 import AnimeList from "../../components/AnimeList";
 import Pagination from "../../components/Pagination";
 
-export default function SearchAnime() {
-  const { keyword } = useParams();
-  const { state, dispatch } = useSearchAnimeContext();
-  const [fetched, setFetched] = useState(true);
+export default function SeasonAnime({ season }) {
+  const seasonAnimeAttribute = {
+    title: null,
+    useContext: null,
+  };
 
-  async function fetchSearchAnime() {
-    setFetched(false);
+  if (season === "winter") {
+    seasonAnimeAttribute.title = "Winter Anime";
+    seasonAnimeAttribute.useContext = useWinterAnimeContext();
+    seasonAnimeAttribute.title = "Winter Anime";
+  }
+  if (season === "spring") {
+    seasonAnimeAttribute.title = "Spring Anime";
+    seasonAnimeAttribute.useContext = useSpringAnimeContext();
+  }
+  if (season === "summer") {
+    seasonAnimeAttribute.title = "Summer Anime";
+    seasonAnimeAttribute.useContext = useSummerAnimeContext();
+  }
+  if (season === "fall") {
+    seasonAnimeAttribute.title = "Fall Anime";
+    seasonAnimeAttribute.useContext = useFallAnimeContext();
+  }
+
+  const { state, dispatch } = seasonAnimeAttribute.useContext;
+  const thisYear = new Date().getFullYear();
+
+  async function fetchSeasonAnime() {
     const response = await fetchJikanApi(
-      `/anime?page=${state.currentPage}&q=${keyword}`,
+      `/seasons/${thisYear}/${season}?page=${state.currentPage}`,
     );
     dispatch({
       type: "fetchAnime",
@@ -28,8 +55,13 @@ export default function SearchAnime() {
       currentPage: response.pagination.current_page,
       maxPage: response.pagination.last_visible_page,
     });
-    setFetched(true);
   }
+
+  useEffect(() => {
+    if (state.currentPage !== 1 && state?.anime?.length === 0)
+      fetchSeasonAnime();
+    else state?.anime?.length === 0 ? fetchSeasonAnime() : null;
+  }, [state.currentPage, state]);
 
   function handleClickPagination(type, jumpTarget) {
     if (type === "jump") {
@@ -56,23 +88,11 @@ export default function SearchAnime() {
     }
   }
 
-  useEffect(() => {
-    if (state.anime.length === 0) fetchSearchAnime();
-  }, [keyword, state.currentPage]);
-
-  const noteStyles =
-    "text-xl text-grayWhite text-center mt-4 font-montserrat font-bold";
-
-  if (fetched && !state.anime.length) {
-    return <div className={noteStyles}>{keyword} tidak ditemukan</div>;
-  }
-
   return (
-    <div>
-      {fetched && state.anime.length > 0 && (
-        <div className={noteStyles}>Hasil pencarian {keyword}</div>
-      )}
-
+    <>
+      <h1 className="text-center font-bold text-2xl text-grayWhite font-montserrat mt-2 md:hidden">
+        {seasonAnimeAttribute.title}
+      </h1>
       <AnimeList animeData={state.anime} />
       {!state.anime.length ? (
         ""
@@ -85,6 +105,6 @@ export default function SearchAnime() {
           }
         />
       )}
-    </div>
+    </>
   );
 }
