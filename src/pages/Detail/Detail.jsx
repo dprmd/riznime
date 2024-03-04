@@ -22,8 +22,10 @@ export default function Detail() {
     async function fetchDetailAnime() {
       const fullType = state.mangaMode ? "manga" : "anime";
       const response = await fetchJikanApi(`/${fullType}/${mal_id}/full`);
-      response.data.trailer = {};
-      response.data.trailer.url = null;
+      if (state.mangaMode) {
+        response.data.trailer = {}
+        response.data.trailer.url = null
+      }
       setDetailAnimeOrManga(response.data);
       setLoadingDetailAnimeOrManga(false);
     }
