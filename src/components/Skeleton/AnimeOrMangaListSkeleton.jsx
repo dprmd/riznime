@@ -1,6 +1,6 @@
 /* eslint-disable react/prop-types */
 
-export default function AnimeListSkeleton({ length }) {
+export default function AnimeOrMangaListSkeleton({ length }) {
   const animeLength = Array(length).fill(null);
 
   return (

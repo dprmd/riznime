@@ -8,41 +8,41 @@ import { fetchJikanApi } from "../../services/JikanApi";
 import { handleClickPagination } from "../../utils/pagination";
 
 // Context
-import { useTopAnimeContext } from "../../context/AnimeContext";
+import { useTopMangaContext } from "../../context/MangaContext";
 
 // Components
 import AnimeOrMangaList from "../../components/AnimeOrMangaList";
 import Pagination from "../../components/Pagination";
 
-export default function TopAnime() {
-  const { state, dispatch } = useTopAnimeContext();
+export default function TopManga() {
+  const { state, dispatch } = useTopMangaContext();
 
-  async function fetchTopAnime() {
+  async function fetchTopManga() {
     window.scrollTo({ top: 0, left: 0 });
     const response = await fetchJikanApi(
-      `/top/anime?page=${state.currentPage}`,
+      `/top/manga?page=${state.currentPage}`,
     );
     dispatch({
-      type: "fetchAnime",
-      anime: response.data,
+      type: "fetchManga",
+      manga: response.data,
       currentPage: response.pagination.current_page,
       maxPage: response.pagination.last_visible_page,
     });
   }
 
-  document.title = "RizNime - Top Anime";
-
   useEffect(() => {
-    if (state.anime.length === 0) fetchTopAnime();
+    if (state.manga.length === 0) fetchTopManga();
   }, [state.currentPage]);
+
+  document.title = "RizNime - Top Manga";
 
   return (
     <>
       <h1 className="text-center font-bold text-2xl text-grayWhite font-montserrat mt-2 md:hidden">
-        Top Anime
+        Top Manga
       </h1>
-      <AnimeOrMangaList animeOrMangaData={state.anime} />
-      {!state.anime.length ? (
+      <AnimeOrMangaList animeOrMangaData={state.manga} />
+      {!state.manga.length ? (
         ""
       ) : (
         <Pagination
@@ -54,7 +54,7 @@ export default function TopAnime() {
               jumpTarget,
               ownState: state,
               ownDispatch: dispatch,
-              type: "anime",
+              type: "manga",
             })
           }
         />

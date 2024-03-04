@@ -12,16 +12,19 @@ export default function HeaderHamburger(props) {
       }}
     >
       <span
-        className={`duration-500 origin-left w-7 h-1 bg-grayWhite ${hambActive ? "rotate-45" : ""
-          }`}
+        className={`duration-500 origin-left w-7 h-1 bg-grayWhite ${
+          hambActive ? "rotate-45" : ""
+        }`}
       ></span>
       <span
-        className={`duration-500 w-7 h-1 bg-grayWhite ${hambActive ? "scale-0" : ""
-          }`}
+        className={`duration-500 w-7 h-1 bg-grayWhite ${
+          hambActive ? "scale-0" : ""
+        }`}
       ></span>
       <span
-        className={`duration-500 origin-left w-7 h-1 bg-grayWhite ${hambActive ? "-rotate-45" : ""
-          }`}
+        className={`duration-500 origin-left w-7 h-1 bg-grayWhite ${
+          hambActive ? "-rotate-45" : ""
+        }`}
       ></span>
     </div>
   );

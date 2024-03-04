@@ -1,6 +1,6 @@
 // Components
-import HeaderLogo from "./HeaderLogo"
-import HeaderNavbar from "./HeaderNavbar"
+import HeaderLogo from "./HeaderLogo";
+import HeaderNavbar from "./HeaderNavbar";
 
 export default function Header() {
   return (
@@ -8,5 +8,5 @@ export default function Header() {
       <HeaderLogo />
       <HeaderNavbar />
     </header>
-  )
+  );
 }

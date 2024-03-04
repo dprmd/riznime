@@ -5,20 +5,24 @@ import { useParams } from "react-router-dom";
 // Services
 import { fetchJikanApi } from "../../services/JikanApi";
 
+// Utils
+import { handleClickPagination } from "../../utils/pagination";
+
 // Context
 import { useSearchAnimeContext } from "../../context/AnimeContext";
 
 // Components
-import AnimeList from "../../components/AnimeList";
+import AnimeOrMangaList from "../../components/AnimeOrMangaList";
 import Pagination from "../../components/Pagination";
 
 export default function SearchAnime() {
   const { keyword } = useParams();
   const { state, dispatch } = useSearchAnimeContext();
-  const [fetched, setFetched] = useState(true);
+  const [fetched, setFetched] = useState(false);
 
   async function fetchSearchAnime() {
     setFetched(false);
+    window.scrollTo({ top: 0, left: 0 });
     const response = await fetchJikanApi(
       `/anime?page=${state.currentPage}&q=${keyword}`,
     );
@@ -31,41 +35,12 @@ export default function SearchAnime() {
     setFetched(true);
   }
 
-  function handleClickPagination(type, jumpTarget) {
-    if (type === "jump") {
-      dispatch({ type: "resetAnime" });
-      dispatch({ type: "changePage", currentPage: jumpTarget });
-    }
-    if (type === "prev") {
-      if (state.currentPage === 1) return;
-      dispatch({ type: "resetAnime" });
-      dispatch({
-        type: "changePage",
-        currentPage: state.currentPage === 1 ? 1 : state.currentPage - 1,
-      });
-    } else if (type === "next") {
-      if (state.currentPage === state.maxPage) return alert("No More Page");
-      dispatch({ type: "resetAnime" });
-      dispatch({
-        type: "changePage",
-        currentPage:
-          state.currentPage >= state.maxPage
-            ? state.currentPage
-            : state.currentPage + 1,
-      });
-    }
-  }
-
   useEffect(() => {
     if (state.anime.length === 0) fetchSearchAnime();
-  }, [keyword, state.currentPage]);
+  }, [state]);
 
   const noteStyles =
     "text-xl text-grayWhite text-center mt-4 font-montserrat font-bold";
-
-  if (fetched && !state.anime.length) {
-    return <div className={noteStyles}>{keyword} tidak ditemukan</div>;
-  }
 
   return (
     <div>
@@ -73,15 +48,21 @@ export default function SearchAnime() {
         <div className={noteStyles}>Hasil pencarian {keyword}</div>
       )}
 
-      <AnimeList animeData={state.anime} />
+      <AnimeOrMangaList animeOrMangaData={state.anime} />
       {!state.anime.length ? (
         ""
       ) : (
         <Pagination
           currentPage={state.currentPage}
           maxPage={state.maxPage}
-          onClick={(type, jumpTarget) =>
-            handleClickPagination(type, jumpTarget)
+          onClick={(typeNavigation, jumpTarget) =>
+            handleClickPagination({
+              typeNavigation,
+              jumpTarget,
+              ownState: state,
+              ownDispatch: dispatch,
+              type: "anime",
+            })
           }
         />
       )}

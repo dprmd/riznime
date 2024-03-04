@@ -1,12 +1,14 @@
 // Svg Link
-import GithubLink from "./GithubLink"
-import NetlifyLink from "./NetlifyLink"
-import ViteLink from "./ViteLink"
-import ReactLink from "./ReactLink"
-import TailwindLink from "./TailwindLink"
-import JikanLink from "./JikanLink"
+import GithubLink from "./GithubLink";
+import NetlifyLink from "./NetlifyLink";
+import ViteLink from "./ViteLink";
+import ReactLink from "./ReactLink";
+import TailwindLink from "./TailwindLink";
+import JikanLink from "./JikanLink";
 
 export default function About() {
+  document.title = "RizNime - About";
+
   return (
     <>
       <div className="pl-6 py-4 text-grayWhite font-montserrat flex flex-col md:flex-row">
@@ -42,5 +44,5 @@ export default function About() {
         </div>
       </div>
     </>
-  )
+  );
 }

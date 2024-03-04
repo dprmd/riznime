@@ -6,6 +6,9 @@ import { useEffect } from "react";
 // Services
 import { fetchJikanApi } from "../../services/JikanApi";
 
+// Utils
+import { handleClickPagination } from "../../utils/pagination";
+
 // Context
 import {
   useWinterAnimeContext,
@@ -15,7 +18,7 @@ import {
 } from "../../context/AnimeContext";
 
 // Components
-import AnimeList from "../../components/AnimeList";
+import AnimeOrMangaList from "../../components/AnimeOrMangaList";
 import Pagination from "../../components/Pagination";
 
 export default function SeasonAnime({ season }) {
@@ -27,7 +30,6 @@ export default function SeasonAnime({ season }) {
   if (season === "winter") {
     seasonAnimeAttribute.title = "Winter Anime";
     seasonAnimeAttribute.useContext = useWinterAnimeContext();
-    seasonAnimeAttribute.title = "Winter Anime";
   }
   if (season === "spring") {
     seasonAnimeAttribute.title = "Spring Anime";
@@ -46,6 +48,7 @@ export default function SeasonAnime({ season }) {
   const thisYear = new Date().getFullYear();
 
   async function fetchSeasonAnime() {
+    window.scrollTo({ top: 0, left: 0 });
     const response = await fetchJikanApi(
       `/seasons/${thisYear}/${season}?page=${state.currentPage}`,
     );
@@ -57,51 +60,32 @@ export default function SeasonAnime({ season }) {
     });
   }
 
-  useEffect(() => {
-    if (state.currentPage !== 1 && state?.anime?.length === 0)
-      fetchSeasonAnime();
-    else state?.anime?.length === 0 ? fetchSeasonAnime() : null;
-  }, [state.currentPage, state]);
+  document.title = `RizNime - ${seasonAnimeAttribute.title}`;
 
-  function handleClickPagination(type, jumpTarget) {
-    if (type === "jump") {
-      dispatch({ type: "resetAnime" });
-      dispatch({ type: "changePage", currentPage: jumpTarget });
-    }
-    if (type === "prev") {
-      if (state.currentPage === 1) return;
-      dispatch({ type: "resetAnime" });
-      dispatch({
-        type: "changePage",
-        currentPage: state.currentPage === 1 ? 1 : state.currentPage - 1,
-      });
-    } else if (type === "next") {
-      if (state.currentPage === state.maxPage) return alert("No More Page");
-      dispatch({ type: "resetAnime" });
-      dispatch({
-        type: "changePage",
-        currentPage:
-          state.currentPage >= state.maxPage
-            ? state.currentPage
-            : state.currentPage + 1,
-      });
-    }
-  }
+  useEffect(() => {
+    if (state.anime.length === 0) fetchSeasonAnime();
+  }, [state.currentPage, state]);
 
   return (
     <>
       <h1 className="text-center font-bold text-2xl text-grayWhite font-montserrat mt-2 md:hidden">
         {seasonAnimeAttribute.title}
       </h1>
-      <AnimeList animeData={state.anime} />
+      <AnimeOrMangaList animeOrMangaData={state.anime} />
       {!state.anime.length ? (
         ""
       ) : (
         <Pagination
           currentPage={state.currentPage}
           maxPage={state.maxPage}
-          onClick={(type, jumpTarget) =>
-            handleClickPagination(type, jumpTarget)
+          onClick={(typeNavigation, jumpTarget) =>
+            handleClickPagination({
+              typeNavigation,
+              jumpTarget,
+              ownState: state,
+              ownDispatch: dispatch,
+              type: "anime",
+            })
           }
         />
       )}

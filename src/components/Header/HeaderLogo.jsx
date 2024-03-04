@@ -4,5 +4,5 @@ export default function HeaderLogo() {
       <span className="text-slate-400 font-normal">Riz</span>
       <span className="text-slate-200 font-bold">Nime</span>
     </div>
-  )
+  );
 }

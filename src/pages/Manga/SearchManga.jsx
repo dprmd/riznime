@@ -1,5 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
+import { useParams } from "react-router-dom";
 
 // Services
 import { fetchJikanApi } from "../../services/JikanApi";
@@ -8,41 +9,47 @@ import { fetchJikanApi } from "../../services/JikanApi";
 import { handleClickPagination } from "../../utils/pagination";
 
 // Context
-import { useTopAnimeContext } from "../../context/AnimeContext";
+import { useSearchMangaContext } from "../../context/MangaContext";
 
 // Components
 import AnimeOrMangaList from "../../components/AnimeOrMangaList";
 import Pagination from "../../components/Pagination";
 
-export default function TopAnime() {
-  const { state, dispatch } = useTopAnimeContext();
+export default function SearchManga() {
+  const { keyword } = useParams();
+  const { state, dispatch } = useSearchMangaContext();
+  const [fetched, setFetched] = useState(false);
 
-  async function fetchTopAnime() {
+  async function fetchSearchManga() {
+    setFetched(false);
     window.scrollTo({ top: 0, left: 0 });
     const response = await fetchJikanApi(
-      `/top/anime?page=${state.currentPage}`,
+      `/manga?page=${state.currentPage}&q=${keyword}`,
     );
     dispatch({
-      type: "fetchAnime",
-      anime: response.data,
+      type: "fetchManga",
+      manga: response.data,
       currentPage: response.pagination.current_page,
       maxPage: response.pagination.last_visible_page,
     });
+    setFetched(true);
   }
 
-  document.title = "RizNime - Top Anime";
+  const noteStyles =
+    "text-xl text-grayWhite text-center mt-4 font-montserrat font-bold";
 
   useEffect(() => {
-    if (state.anime.length === 0) fetchTopAnime();
-  }, [state.currentPage]);
+    if (state.manga.length === 0) fetchSearchManga();
+  }, [state]);
 
   return (
-    <>
-      <h1 className="text-center font-bold text-2xl text-grayWhite font-montserrat mt-2 md:hidden">
-        Top Anime
-      </h1>
-      <AnimeOrMangaList animeOrMangaData={state.anime} />
-      {!state.anime.length ? (
+    <div>
+      {fetched && state.manga.length > 0 && (
+        <div className={noteStyles}>Hasil pencarian {keyword}</div>
+      )}
+
+      <AnimeOrMangaList animeOrMangaData={state.manga} />
+      {!state.manga.length ? (
         ""
       ) : (
         <Pagination
@@ -54,11 +61,11 @@ export default function TopAnime() {
               jumpTarget,
               ownState: state,
               ownDispatch: dispatch,
-              type: "anime",
+              type: "manga",
             })
           }
         />
       )}
-    </>
+    </div>
   );
 }

@@ -12,6 +12,8 @@ import Detail from "./pages/Detail/Detail";
 import TopAnime from "./pages/Anime/TopAnime";
 import SeasonAnime from "./pages/Anime/SeasonAnime";
 import SearchAnime from "./pages/Anime/SearchAnime";
+import TopManga from "./pages/Manga/TopManga";
+import SearchManga from "./pages/Manga/SearchManga";
 
 export default function App() {
   return (
@@ -26,9 +28,11 @@ export default function App() {
               <Route path="spring" element={<SeasonAnime season="spring" />} />
               <Route path="summer" element={<SeasonAnime season="summer" />} />
               <Route path="fall" element={<SeasonAnime season="fall" />} />
+              <Route path="top-manga" element={<TopManga />} />
             </Route>
             <Route path="about" element={<About />} />
-            <Route path="search/:keyword" element={<SearchAnime />} />
+            <Route path="search/anime/:keyword" element={<SearchAnime />} />
+            <Route path="search/manga/:keyword" element={<SearchManga />} />
             <Route path="detail/:mal_id" element={<Detail />} />
           </Route>
         </Routes>

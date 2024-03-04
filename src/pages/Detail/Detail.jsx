@@ -1,33 +1,41 @@
-import { useState, useEffect } from "react"
-import { useParams } from "react-router-dom"
+import { useState, useEffect } from "react";
+import { useParams } from "react-router-dom";
 
 // Services
-import { fetchJikanApi } from "../../services/JikanApi"
+import { fetchJikanApi } from "../../services/JikanApi";
 
 // Components
-import Back from "../../components/Back"
-import DetailSection from "./DetailSection"
+import Back from "../../components/Back";
+import DetailSection from "./DetailSection";
+
+// Context
+import { useMangaModeContext } from "../../context/MangaContext";
 
 export default function Detail() {
-  const { mal_id } = useParams()
-  const [detailAnime, setDetailAnime] = useState({})
-  const [loadingDetailAnime, setLoadingDetailAnime] = useState(true)
+  const { state } = useMangaModeContext();
+  const { mal_id } = useParams();
+  const [detailAnimeOrManga, setDetailAnimeOrManga] = useState({});
+  const [loadingDetailAnimeOrManga, setLoadingDetailAnimeOrManga] =
+    useState(true);
 
   useEffect(() => {
     async function fetchDetailAnime() {
-      const response = await fetchJikanApi(`/anime/${mal_id}/full`)
-      setDetailAnime(response.data)
-      setLoadingDetailAnime(false)
+      const fullType = state.mangaMode ? "manga" : "anime";
+      const response = await fetchJikanApi(`/${fullType}/${mal_id}/full`);
+      response.data.trailer = {};
+      response.data.trailer.url = null;
+      setDetailAnimeOrManga(response.data);
+      setLoadingDetailAnimeOrManga(false);
     }
 
-    fetchDetailAnime()
-  }, [mal_id])
+    fetchDetailAnime();
+  }, [mal_id]);
 
-  document.title = `RizNime - ${detailAnime?.title}`
+  document.title = `RizNime - ${detailAnimeOrManga?.title}`;
 
   return (
     <div className="m-4 p-4">
-      {loadingDetailAnime ? (
+      {loadingDetailAnimeOrManga ? (
         <div className="text-center font-bold text-xl text-grayWhite">
           Loading . . .
         </div>
@@ -35,13 +43,16 @@ export default function Detail() {
         <>
           <div className="flex flex-col md:flex-row items-center justify-center md:justify-start md:items-start">
             <div className="min-w-[200px] max-w-[230px] overflow-hidden">
-              <img src={detailAnime?.images?.webp.large_image_url} alt="" />
+              <img
+                src={detailAnimeOrManga?.images?.webp.large_image_url}
+                alt=""
+              />
             </div>
 
             <div className="mx-4 p-4 pt-0 text-grayWhite font-poppins mt-6 md:mt-0 text-center md:text-left">
-              {detailAnime?.trailer.url !== null ? (
+              {detailAnimeOrManga?.trailer?.url !== null ? (
                 <a
-                  href={detailAnime.trailer.url}
+                  href={detailAnimeOrManga.trailer.url}
                   target="_blank"
                   rel="noreferrer"
                   className="block w-max mx-auto px-4 py-2 bg-grayWhite text-black font-bold mb-4 rounded-md cursor-pointer hover:bg-slate-400 duration-300 md:mx-0"
@@ -52,14 +63,16 @@ export default function Detail() {
                 ""
               )}
 
-              <h3 className="font-bold text-2xl mb-1">{detailAnime.title}</h3>
+              <h3 className="font-bold text-2xl mb-1">
+                {detailAnimeOrManga.title}
+              </h3>
 
               <DetailSection
                 detailName={"Genres"}
                 detailDescription={
-                  detailAnime.genres ? (
+                  detailAnimeOrManga.genres ? (
                     <div className="flex flex-wrap justify-center md:justify-start">
-                      {detailAnime.genres.map((genre) => (
+                      {detailAnimeOrManga.genres.map((genre) => (
                         <span
                           key={genre.mal_id}
                           className="bg-gray-200 m-1 text-black px-3 rounded-full text-sm"
@@ -76,37 +89,43 @@ export default function Detail() {
               <DetailSection
                 detailName={"Type"}
                 detailDescription={
-                  detailAnime.type ? detailAnime.type : "Unknown"
+                  detailAnimeOrManga.type ? detailAnimeOrManga.type : "Unknown"
                 }
               />
               <DetailSection
                 detailName={"Release"}
                 detailDescription={
-                  detailAnime.year ? detailAnime.year : "Unknown"
+                  detailAnimeOrManga.year ? detailAnimeOrManga.year : "Unknown"
                 }
               />
               <DetailSection
                 detailName={"Season"}
                 detailDescription={
-                  detailAnime.season ? detailAnime.season : "Unknown"
+                  detailAnimeOrManga.season
+                    ? detailAnimeOrManga.season
+                    : "Unknown"
                 }
               />
               <DetailSection
                 detailName={"Rank"}
                 detailDescription={
-                  detailAnime.rank ? detailAnime.rank : "Unknown"
+                  detailAnimeOrManga.rank ? detailAnimeOrManga.rank : "Unknown"
                 }
               />
               <DetailSection
                 detailName={"Score"}
                 detailDescription={
-                  detailAnime.score ? detailAnime.score : "Unknown"
+                  detailAnimeOrManga.score
+                    ? detailAnimeOrManga.score
+                    : "Unknown"
                 }
               />
               <DetailSection
                 detailName={"Total Episode"}
                 detailDescription={
-                  detailAnime.episodes ? detailAnime.episodes : "Unknown"
+                  detailAnimeOrManga.episodes
+                    ? detailAnimeOrManga.episodes
+                    : "Unknown"
                 }
               />
             </div>
@@ -116,13 +135,17 @@ export default function Detail() {
             <DetailSection
               detailName={"Background"}
               detailDescription={
-                detailAnime.background ? detailAnime.background : "Unknown"
+                detailAnimeOrManga.background
+                  ? detailAnimeOrManga.background
+                  : "Unknown"
               }
             />
             <DetailSection
               detailName={"Synopsis"}
               detailDescription={
-                detailAnime.synopsis ? detailAnime.synopsis : "Unknown"
+                detailAnimeOrManga.synopsis
+                  ? detailAnimeOrManga.synopsis
+                  : "Unknown"
               }
             />
           </div>
@@ -130,5 +153,5 @@ export default function Detail() {
         </>
       )}
     </div>
-  )
+  );
 }

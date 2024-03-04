@@ -28,6 +28,8 @@ function reducer(state, action) {
   }
 }
 
+const initialValue = { anime: [], currentPage: 1, maxPage: 999999 };
+
 // UseContextHook
 export const useSearchAnimeContext = () => useContext(SearchAnimeContext);
 export const useTopAnimeContext = () => useContext(TopAnimeContext);
@@ -38,7 +40,6 @@ export const useFallAnimeContext = () => useContext(FallAnimeContext);
 
 // ContextProvider
 export function AnimeContextProvider({ children }) {
-  const initialValue = { anime: [], currentPage: 1, maxPage: 999999 };
   const [searchState, dispatchSearch] = useReducer(reducer, initialValue);
   const [topState, dispatchTop] = useReducer(reducer, initialValue);
   const [winterState, dispatchWinter] = useReducer(reducer, initialValue);
@@ -61,7 +62,7 @@ export function AnimeContextProvider({ children }) {
     state: springState,
     dispatch: dispatchSpring,
   };
-  const summerAnimeCOntextValue = {
+  const summerAnimeContextValue = {
     state: summerState,
     dispatch: dispatchSummer,
   };
@@ -72,7 +73,7 @@ export function AnimeContextProvider({ children }) {
       <TopAnimeContext.Provider value={topAnimeContextValue}>
         <WinterAnimeContext.Provider value={winterAnimeContextValue}>
           <SpringAnimeContext.Provider value={springAnimeContextValue}>
-            <SummerAnimeContext.Provider value={summerAnimeCOntextValue}>
+            <SummerAnimeContext.Provider value={summerAnimeContextValue}>
               <FallAnimeContext.Provider value={fallAnimeContextValue}>
                 {children}
               </FallAnimeContext.Provider>
