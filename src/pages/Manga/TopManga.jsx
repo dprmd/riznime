@@ -34,6 +34,7 @@ export default function TopManga() {
     if (state.manga.length === 0) fetchTopManga();
   }, [state.currentPage]);
 
+  localStorage.setItem("lastMangaPage", "/home/top-manga");
   document.title = "RizNime - Top Manga";
 
   return (

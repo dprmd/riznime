@@ -24,15 +24,14 @@ export function handleClickPagination(props) {
   if (typeNavigation === "jump") {
     ownDispatch({ type: reseter });
     ownDispatch({ type: "changePage", currentPage: jumpTarget });
-  }
-  if (typeNavigation === "prev") {
+  } else if (typeNavigation === "prev") {
     if (ownState.currentPage === 1) return;
     ownDispatch({ type: reseter });
     ownDispatch({
       type: "changePage",
       currentPage: ownState.currentPage === 1 ? 1 : ownState.currentPage - 1,
     });
-  } else if (type === "next") {
+  } else if (typeNavigation === "next") {
     if (ownState.currentPage === ownState.maxPage) return alert("No More Page");
     ownDispatch({ type: reseter });
     ownDispatch({

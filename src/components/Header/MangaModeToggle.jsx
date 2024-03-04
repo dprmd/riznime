@@ -1,11 +1,14 @@
 // Context
 import { useMangaModeContext } from "../../context/MangaContext";
+import { useRedirectContext } from "../../context/OtherContext";
 
 export default function MangaModeToggle() {
   const { state, dispatch } = useMangaModeContext();
+  const { dispatch: dispatchRedirect } = useRedirectContext();
 
   function handleMangaClick() {
     dispatch({ type: "changeMangaMode", mangaMode: !state.mangaMode });
+    dispatchRedirect({ type: "enableRedirect" });
   }
 
   return (

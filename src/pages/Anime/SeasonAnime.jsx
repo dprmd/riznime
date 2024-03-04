@@ -25,27 +25,33 @@ export default function SeasonAnime({ season }) {
   const seasonAnimeAttribute = {
     title: null,
     useContext: null,
+    lastAnimePage: null,
   };
 
   if (season === "winter") {
     seasonAnimeAttribute.title = "Winter Anime";
     seasonAnimeAttribute.useContext = useWinterAnimeContext();
+    seasonAnimeAttribute.lastAnimePage = "/home/winter";
   }
   if (season === "spring") {
     seasonAnimeAttribute.title = "Spring Anime";
     seasonAnimeAttribute.useContext = useSpringAnimeContext();
+    seasonAnimeAttribute.lastAnimePage = "/home/spring";
   }
   if (season === "summer") {
     seasonAnimeAttribute.title = "Summer Anime";
     seasonAnimeAttribute.useContext = useSummerAnimeContext();
+    seasonAnimeAttribute.lastAnimePage = "/home/summer";
   }
   if (season === "fall") {
     seasonAnimeAttribute.title = "Fall Anime";
     seasonAnimeAttribute.useContext = useFallAnimeContext();
+    seasonAnimeAttribute.lastAnimePage = "/home/fall";
   }
 
   const { state, dispatch } = seasonAnimeAttribute.useContext;
   const thisYear = new Date().getFullYear();
+  localStorage.setItem("lastAnimePage", seasonAnimeAttribute.lastAnimePage);
 
   async function fetchSeasonAnime() {
     window.scrollTo({ top: 0, left: 0 });

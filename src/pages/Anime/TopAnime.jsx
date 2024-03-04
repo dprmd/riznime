@@ -30,6 +30,7 @@ export default function TopAnime() {
     });
   }
 
+  localStorage.setItem("lastAnimePage", "/home/top-anime");
   document.title = "RizNime - Top Anime";
 
   useEffect(() => {
