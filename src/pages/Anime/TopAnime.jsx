@@ -19,9 +19,11 @@ export default function TopAnime() {
 
   async function fetchTopAnime() {
     window.scrollTo({ top: 0, left: 0 });
+    console.time("fetch");
     const response = await fetchJikanApi(
       `/top/anime?page=${state.currentPage}`,
     );
+    console.timeEnd("fetch");
     dispatch({
       type: "fetchAnime",
       anime: response.data,
