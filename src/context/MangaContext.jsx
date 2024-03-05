@@ -5,10 +5,7 @@ import { createContext, useContext, useReducer } from "react";
 // Utils
 import { getMangaMode } from "../utils/localStorage";
 
-const MangaModeContext = createContext({});
-const TopMangaContext = createContext({});
-const SearchMangaContext = createContext({});
-
+// Reducer and Initial Value
 function mangaModeReducer(state, action) {
   if (action.type === "changeMangaMode") {
     localStorage.setItem("mangaMode", action.mangaMode);
@@ -38,27 +35,30 @@ function mangaReducer(state, action) {
   }
 }
 
-const mangaModeInitValue = { mangaMode: getMangaMode() };
-const mangaInitValue = { manga: [], currentPage: 1, maxPage: 999999 };
+const mangaModeInitVal = { mangaMode: getMangaMode() };
+const mangaInitVal = { manga: [], currentPage: 1, maxPage: 999999 };
 
-// Use Context Hook
+// Context Hook
+const MangaModeContext = createContext({});
+const TopMangaContext = createContext({});
+const SearchMangaContext = createContext({});
+
 export const useMangaModeContext = () => useContext(MangaModeContext);
 export const useTopMangaContext = () => useContext(TopMangaContext);
 export const useSearchMangaContext = () => useContext(SearchMangaContext);
 
-// Context Provider
 export function MangaContextProvider({ children }) {
   const [mangaModeState, dispatchMangaMode] = useReducer(
     mangaModeReducer,
-    mangaModeInitValue,
+    mangaModeInitVal,
   );
   const [topMangaState, dispatchTopManga] = useReducer(
     mangaReducer,
-    mangaInitValue,
+    mangaInitVal,
   );
   const [searchMangaState, dispatchSearchManga] = useReducer(
     mangaReducer,
-    mangaInitValue,
+    mangaInitVal,
   );
   const mangaModeContextValue = {
     state: mangaModeState,

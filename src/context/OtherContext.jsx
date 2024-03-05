@@ -2,9 +2,7 @@
 /* eslint-disable react-refresh/only-export-components */
 import { createContext, useContext, useReducer } from "react";
 
-const RedirectContext = createContext({});
-const FirstTimeContext = createContext({});
-
+// Reducer and Initial Value
 function redirectReducer(state, action) {
   if (action.type === "enableRedirect") {
     return {
@@ -31,6 +29,10 @@ function firstTimeReducer(state, action) {
 
 const redirectInitVal = { redirect: true };
 const firstTimeInitVal = { firstTime: true };
+
+// Context Hook
+const RedirectContext = createContext({});
+const FirstTimeContext = createContext({});
 
 export const useRedirectContext = () => useContext(RedirectContext);
 export const useFirstTimeContext = () => useContext(FirstTimeContext);

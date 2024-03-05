@@ -2,14 +2,8 @@
 /* eslint-disable react/prop-types */
 import { createContext, useContext, useReducer } from "react";
 
-const SearchAnimeContext = createContext({});
-const TopAnimeContext = createContext({});
-const WinterAnimeContext = createContext({});
-const SpringAnimeContext = createContext({});
-const SummerAnimeContext = createContext({});
-const FallAnimeContext = createContext({});
-
-function reducer(state, action) {
+// Reducer and Initial Value
+function animeReducer(state, action) {
   if (action.type === "fetchAnime") {
     return {
       ...state,
@@ -28,9 +22,16 @@ function reducer(state, action) {
   }
 }
 
-const initialValue = { anime: [], currentPage: 1, maxPage: 999999 };
+const animeInitVal = { anime: [], currentPage: 1, maxPage: 999999 };
 
-// UseContextHook
+// Context Hook
+const SearchAnimeContext = createContext({});
+const TopAnimeContext = createContext({});
+const WinterAnimeContext = createContext({});
+const SpringAnimeContext = createContext({});
+const SummerAnimeContext = createContext({});
+const FallAnimeContext = createContext({});
+
 export const useSearchAnimeContext = () => useContext(SearchAnimeContext);
 export const useTopAnimeContext = () => useContext(TopAnimeContext);
 export const useWinterAnimeContext = () => useContext(WinterAnimeContext);
@@ -38,14 +39,13 @@ export const useSpringAnimeContext = () => useContext(SpringAnimeContext);
 export const useSummerAnimeContext = () => useContext(SummerAnimeContext);
 export const useFallAnimeContext = () => useContext(FallAnimeContext);
 
-// ContextProvider
 export function AnimeContextProvider({ children }) {
-  const [searchState, dispatchSearch] = useReducer(reducer, initialValue);
-  const [topState, dispatchTop] = useReducer(reducer, initialValue);
-  const [winterState, dispatchWinter] = useReducer(reducer, initialValue);
-  const [springState, dispatchSpring] = useReducer(reducer, initialValue);
-  const [summerState, dispatchSummer] = useReducer(reducer, initialValue);
-  const [fallState, dispatchFall] = useReducer(reducer, initialValue);
+  const [searchState, dispatchSearch] = useReducer(animeReducer, animeInitVal);
+  const [topState, dispatchTop] = useReducer(animeReducer, animeInitVal);
+  const [winterState, dispatchWinter] = useReducer(animeReducer, animeInitVal);
+  const [springState, dispatchSpring] = useReducer(animeReducer, animeInitVal);
+  const [summerState, dispatchSummer] = useReducer(animeReducer, animeInitVal);
+  const [fallState, dispatchFall] = useReducer(animeReducer, animeInitVal);
   const searchAnimeContextValue = {
     state: searchState,
     dispatch: dispatchSearch,

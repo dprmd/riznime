@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 
@@ -19,18 +20,18 @@ export default function Detail() {
     useState(true);
 
   useEffect(() => {
-    async function fetchDetailAnime() {
+    async function fetchDetail() {
       const fullType = state.mangaMode ? "manga" : "anime";
       const response = await fetchJikanApi(`/${fullType}/${mal_id}/full`);
       if (state.mangaMode) {
-        response.data.trailer = {}
-        response.data.trailer.url = null
+        response.data.trailer = {};
+        response.data.trailer.url = null;
       }
       setDetailAnimeOrManga(response.data);
       setLoadingDetailAnimeOrManga(false);
     }
 
-    fetchDetailAnime();
+    fetchDetail();
   }, [mal_id]);
 
   document.title = `RizNime - ${detailAnimeOrManga?.title}`;
