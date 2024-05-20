@@ -6,10 +6,10 @@ import { v4 } from "uuid";
 import { generateArrayPagination } from "../utils/pagination";
 
 const btnStyle =
-  "w-max mx-auto md:mx-4 my-4 inline-block bg-sky-600 border-none px-4 py-1 text-white rounded text-2xl active:bg-sky-800 md:hover:bg-sky-800 duration-300 mx-4 inline-flex justify-center items-center";
+  "w-3 h-8 rounded-full mx-auto md:mx-4 my-4 inline-block bg-sky-600 border-none px-4 py-1 text-white rounded active:bg-sky-800 md:hover:bg-sky-800 duration-300 mx-4 inline-flex justify-center items-center";
 
 const pageStyle =
-  "mx-1 px-4 py-2 text-xl font-bold text-grayWhite bg-blue-900 rounded-full cursor-pointer";
+  "mx-1 px-3 py-1 text-grayWhite bg-blue-900 rounded-full cursor-pointer";
 
 export default function Pagination({ onClick, currentPage, maxPage }) {
   const { whole, left, right } = generateArrayPagination({
@@ -22,7 +22,7 @@ export default function Pagination({ onClick, currentPage, maxPage }) {
   return (
     <div className="w-full md:w-max mx-auto my-8 flex flex-col md:flex-row md:justify-center md:items-center">
       <button className={btnStyle} onClick={() => onClick("prev")}>
-        &larr;
+      <i class="bi bi-arrow-left"></i>
       </button>
 
       <div className="w-full md:w-max inline-flex justify-center items-center my-2">
@@ -48,7 +48,7 @@ export default function Pagination({ onClick, currentPage, maxPage }) {
           );
         })}
 
-        <span className="border border-white mx-1 px-4 py-2 text-xl font-bold text-grayWhite bg-blue-600 rounded-full cursor-pointer">
+        <span className="border border-white mx-1 px-3 py-1 text-grayWhite bg-blue-600 rounded-full cursor-pointer">
           {currentPage}
         </span>
 
@@ -79,7 +79,7 @@ export default function Pagination({ onClick, currentPage, maxPage }) {
       </div>
 
       <button className={btnStyle} onClick={() => onClick("next")}>
-        &rarr;
+      <i class="bi bi-arrow-right"></i>
       </button>
     </div>
   );
