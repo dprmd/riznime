@@ -15,14 +15,14 @@ export default function Pagination({ onClick, currentPage, maxPage }) {
   const { whole, left, right } = generateArrayPagination({
     currentPage,
     maxPage,
-    toLeft: 3,
-    toRight: 3,
+    toLeft: 2,
+    toRight: 2,
   });
 
   return (
     <div className="w-full md:w-max mx-auto my-8 flex flex-col md:flex-row md:justify-center md:items-center">
       <button className={btnStyle} onClick={() => onClick("prev")}>
-      <i class="bi bi-arrow-left"></i>
+      <i className="bi bi-arrow-left"></i>
       </button>
 
       <div className="w-full md:w-max inline-flex justify-center items-center my-2">
@@ -79,7 +79,7 @@ export default function Pagination({ onClick, currentPage, maxPage }) {
       </div>
 
       <button className={btnStyle} onClick={() => onClick("next")}>
-      <i class="bi bi-arrow-right"></i>
+      <i className="bi bi-arrow-right"></i>
       </button>
     </div>
   );
