@@ -1,7 +1,7 @@
 export default function GithubLink() {
   return (
     <a
-      href="https://github.com/dprmd/react-riznime"
+      href="https://github.com/dprmd/"
       rel="noreferrer"
       target="_blank"
       className="flex items-center px-4 py-3 max-w-[200px] rounded-md active:bg-grayWhite md:hover:bg-slate-600 duration-300 my-2"
@@ -14,5 +14,5 @@ export default function GithubLink() {
       </span>
       <span>Lihat di Github</span>
     </a>
-  )
+  );
 }

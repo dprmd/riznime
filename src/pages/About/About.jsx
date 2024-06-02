@@ -1,6 +1,6 @@
 // Svg Link
 import GithubLink from "./GithubLink";
-import NetlifyLink from "./NetlifyLink";
+import GithubPagesLink from "./GithubPagesLink";
 import ViteLink from "./ViteLink";
 import ReactLink from "./ReactLink";
 import TailwindLink from "./TailwindLink";
@@ -16,7 +16,7 @@ export default function About() {
           <div>
             <h2 className="mb-2 mt-4 text-lg font-bold">Source</h2>
             <GithubLink />
-            <NetlifyLink />
+            <GithubPagesLink />
           </div>
 
           <div>
